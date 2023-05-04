@@ -1,4 +1,3 @@
-LINUX_DIR := /home/sykt/stest/kernel_module/src 
 obj-m += kernel_module.o
 ccflags-y := -Wno-declaration-after-statement -std=gnu99
 default: modules
