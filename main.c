@@ -120,7 +120,7 @@ return read;
 
 
 int test_module(){
-unsigned int args1[3] = { 3, c, 8};
+unsigned int args1[3] = { 3, 0xC, 8};
 unsigned int args2[3] = { 4, 3, 3};
 unsigned int results[3] = { 0xC,24,18 };
 unsigned int ones[3] ={2,2,2};
