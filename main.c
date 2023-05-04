@@ -44,7 +44,14 @@ return 0;
 int main(void){
 int test = test_module();
 
-
+if(test > 0){
+printf("TEST FAILED at %d values\n",test);
+}
+else{
+printf("====== TEST PASSED =====\n");
+}
+return 0;
+}
 
 
 unsigned int read_from_file(char *filePath){
