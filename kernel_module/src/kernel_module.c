@@ -77,6 +77,13 @@ static ssize_t rabb_show(struct kobject *kobj,struct kobj_attribute *attr, char 
 rabb = readl(SYKT_GPIO_STATUS_ADDR);
 return sprintf(buf, "%x", rabw);
 }
+
+static ssize_t rabb_store(struct kobject *kobj, struct kobj_attribute *attr,const char *buf, size_t count)
+{
+        sscanf(buf,"%x",&rabb);
+		writel(rabb, SYKT_GPIO_STATUS_ADDR);
+        return count;
+}
 // makra do komunikacji
 
 static struct kobj_attribute raba1_attr = __ATTR_WO(raba1);
