@@ -101,9 +101,9 @@ void write_to_file(char *filePath, unsigned int input){
 unsigned int multiply(unsigned int arg1, unsigned int arg2){
 write_to_file(SYSFS_FILE_WE1,arg1);
 write_to_file(SYSFS_FILE_WE2,arg2);
-write_to_file(SYSFS_FILE_ONES);
+write_to_file(SYSFS_FILE_ONES, 1);
 write_to_file(SYSFS_FILE_STATUS,1);
-unsigned int read;
+unsigned int read = 0;
 do{
 read = read_from_file(SYSFS_FILE_STATUS);
 }
