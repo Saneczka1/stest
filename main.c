@@ -108,11 +108,11 @@ do{
 read = read_from_file(SYSFS_FILE_STATUS);
 }
 while(read != 3);
-read = read_from_file(SYSFS_FILE_RES);
+read0 = read_from_file(SYSFS_FILE_RES);
 read1 = read_from_file(SYSFS_FILE_ONES);
 read2 = read_from_file(SYSFS_FILE_STATUS);
 
-printf("Arg1=0x%x, Arg2=0x%x, W=0x%x, L=0x%x, B =0x%x", arg1, arg2, read, read1,read2);
+printf("Arg1=0x%x, Arg2=0x%x, W=0x%x, L=0x%x, B =0x%x", arg1, arg2, read0, read1,read2);
 return read;
 }
 
