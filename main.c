@@ -104,6 +104,9 @@ write_to_file(SYSFS_FILE_WE2,arg2);
 write_to_file(SYSFS_FILE_ONES, 1);
 write_to_file(SYSFS_FILE_STATUS,1);
 unsigned int read = 0;
+unsigned int read0 = 0;
+unsigned int read1 = 0;
+unsigned int read2 = 0;
 do{
 read = read_from_file(SYSFS_FILE_STATUS);
 }
