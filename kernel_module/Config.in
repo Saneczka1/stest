@@ -1,6 +1,5 @@
-config BR2_PACKAGE_KERNEL_MODULE 
-  bool "kernel_module" 
-  help 
-    Bajo jajo
-    
-    Jajo
+config BR2_PACKAGE_KERNEL_MODULE
+	bool "kernel_module"
+	help
+		Kernel module module for sykt lecture.
+		http://example.com/
