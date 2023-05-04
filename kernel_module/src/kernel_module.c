@@ -74,7 +74,7 @@ static ssize_t rabl_show(struct kobject *kobj,struct kobj_attribute *attr, char 
 static ssize_t rabb_show(struct kobject *kobj,struct kobj_attribute *attr, char *buf)
 
 {
-rabw = readl(SYKT_GPIO_STATUS_ADDR);
+rabb = readl(SYKT_GPIO_STATUS_ADDR);
 return sprintf(buf, "%x", rabw);
 }
 // makra do komunikacji
