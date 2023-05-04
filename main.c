@@ -125,7 +125,7 @@ unsigned int args2[3] = { 4, 3, 3};
 unsigned int results[3] = { 0xC,24,18 };
 unsigned int ones[3] ={2,2,2};
 for(int i=0; i<7; i++){
-if( multiply(args1[i],args2[i]) != results[i] && != ones[i])
+if( multiply(args1[i],args2[i]) != results[i] && multiply(args1[i],args2[i]) != ones[i])
 return i+1;
 
 }
