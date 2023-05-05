@@ -29,6 +29,9 @@ module gpioemu(n_reset,
     output[31:0]    gpio_out;
     reg [31:0]      gpio_out_s;
 
+
+    //dodatkowe zmienne
+
     reg unsigned [48:0] result;
     reg unsigned[23:0] A2;
     reg unsigned[23:0] A1;
@@ -70,13 +73,13 @@ module gpioemu(n_reset,
 
     always @(posedge swr) begin   // może być błąd
        
-    if (saddress == 16'h03A0 ) begin
+    if (saddress == 16'h03A1 ) begin
         ready <= 1'b1;
 		done <=0;
 		valid =1'b1;
 		B = 2'b11;
         state <= IDLE;
-        gpio_out_s <= gpio_out_s + 1; //licznik
+        gpio_out_s <= gpio_out_s + 1; // licznik
     end
     if (saddress == 16'h37F) // adres pierwszego argumentu
         A1 <= sdata_in[23:0];
@@ -150,23 +153,11 @@ always @(posedge clk) begin
         end
         DONE: begin
 		done <= 1'b1;
-            if (swr && saddress == 16'h03A0) begin // write B
-                B = sdata_in[2:1];
-				
-            end else if (swr && saddress == 16'h0398) begin // write L
-               L <= sdata_in[23:0];
-				
-            end else if (swr && saddress == 16'h0390) begin // write W
-                W <= sdata_in[31:0];
-				
-            end else begin
+            
                 state <= 4;
                 ready <= 1'b1;
-				
-				
-                operation_count <= operation_count + 1;
+			    operation_count <= operation_count + 1;
             end
-        end
     endcase
 end
 

@@ -21,16 +21,17 @@ MODULE_VERSION("0.01");
 
 #define SYKT_GPIO_ADDR_SPACE (baseptr) 
 #define SYKT_GPIO_ARG2_ADDR (SYKT_GPIO_ADDR_SPACE+0x00000388)
+#define SYKT_GPIO_CTRL_ADDR (SYKT_GPIO_ADDR_SPACE+0x000003A1)
 #define SYKT_GPIO_ARG1_ADDR (SYKT_GPIO_ADDR_SPACE+0x0000037F0)
 #define SYKT_GPIO_RESULT_ADDR (SYKT_GPIO_ADDR_SPACE+0x00000390)
 #define SYKT_GPIO_ONES_ADDR (SYKT_GPIO_ADDR_SPACE+0x00000398)
 #define SYKT_GPIO_STATUS_ADDR (SYKT_GPIO_ADDR_SPACE+0x000003A0)
 
-#define DONE_BIT (0x00000001)
+#define DONE (0x00000001)
 
 void __iomem *baseptr;
 static struct kobject *kobj_ref;
-static int ctrlValue;
+static int ctrl;
 static int raba1;
 static int raba2;
 static int rabw;
@@ -52,6 +53,33 @@ writel(raba2, SYKT_GPIO_ARG2_ADDR);
 return count;
 }
 
+// odczyt wyniku z modułu
+static ssize_t raba1_show(struct kobject *kobj,struct kobj_attribute *attr, char *buf)
+{
+raba1 = readl(SYKT_GPIO_ARG1_ADDR);
+return sprintf(buf, "%x", raba1);
+}
+
+static ssize_t raba2_show(struct kobject *kobj,struct kobj_attribute *attr, char *buf)
+{
+raba2 = readl(SYKT_GPIO_ARG2_ADDR);
+return sprintf(buf, "%x", raba2);
+}
+
+// odczyt argumentu arg2 i zapis na odpowiednie miejsce w pamięci
+static ssize_t rabw_store(struct kobject *kobj,struct kobj_attribute *attr,const char *buf, size_t count)
+{
+sscanf(buf,"%x",&rabw);
+writel(rabw, SYKT_GPIO_RESULT_ADDR);
+return count;
+}
+// odczyt argumentu arg2 i zapis na odpowiednie miejsce w pamięci
+static ssize_t rabl_store(struct kobject *kobj,struct kobj_attribute *attr,const char *buf, size_t count)
+{
+sscanf(buf,"%x",&rabl);
+writel(rabl, SYKT_GPIO_ONES_ADDR);
+return count;
+}
 
 
 // odczyt wyniku z modułu
@@ -75,22 +103,22 @@ static ssize_t rabb_show(struct kobject *kobj,struct kobj_attribute *attr, char 
 
 {
 rabb = readl(SYKT_GPIO_STATUS_ADDR);
-return sprintf(buf, "%x", rabw);
+return sprintf(buf, "%x", rabb);
 }
 
 static ssize_t rabb_store(struct kobject *kobj, struct kobj_attribute *attr,const char *buf, size_t count)
 {
-        sscanf(buf,"%x",&rabb);
-		writel(rabb, SYKT_GPIO_STATUS_ADDR);
+        sscanf(buf,"%x",&ctrl);
+		writel(ctrl, SYKT_GPIO_CTRL_ADDR);
         return count;
 }
 // makra do komunikacji
 
-static struct kobj_attribute raba1_attr = __ATTR_WO(raba1);
-static struct kobj_attribute raba2_attr = __ATTR_WO(raba2);
-static struct kobj_attribute rabw_attr = __ATTR_RO(rabw);
-static struct kobj_attribute rabl_attr = __ATTR_RO(rabl);
-static struct kobj_attribute rabb_attr = __ATTR_RW(rabb);
+static struct kobj_attribute raba1_attr = __ATTR(raba1, 0660, raba1_show, raba1_store);
+static struct kobj_attribute raba2_attr = __ATTR(raba2, 0660, raba2_show, raba2_store);
+static struct kobj_attribute rabw_attr = __ATTR(rabw, 0660, rabw_show, rabw_store);
+static struct kobj_attribute rabl_attr = __ATTR(rabl, 0660, rabl_show, rabl_store);
+static struct kobj_attribute rabb_attr = __ATTR(rabb, 0660, rabb_show, rabb_store);
 
 // ===================================================================
 
